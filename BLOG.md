@@ -102,42 +102,60 @@ The AsyncLocalStorage improvement is particularly significant because it's where
 
 The most striking finding? **Full OpenTelemetry auto-instrumentation carries a massive performance penalty.**
 
-In our tests, enabling complete OpenTelemetry instrumentation reduced throughput by over 80%. This isn't necessarily a flaw – comprehensive observability requires extensive monitoring hooks throughout the application lifecycle.
+In our tests, enabling complete OpenTelemetry instrumentation reduced throughput by over 80%. This highlights a critical point: **tracing is expensive and often unnecessary for most observability needs.**
 
-However, the selective approach (Fastify OTel plugin only) offers a more balanced trade-off:
+**Before reaching for distributed tracing, consider lower-cost alternatives:**
+- **Metrics**: Histograms and counters provide most performance insights at minimal cost
+- **Profiles**: CPU and memory profiling reveal bottlenecks more efficiently than traces
+- **Structured logging**: Request correlation through AsyncLocalStorage alone often suffices
+
+**Distributed tracing shines primarily when dealing with anomalies and complex failure scenarios** – but histograms can get you surprisingly far in recognizing performance issues without the overhead.
+
+The selective approach (Fastify OTel plugin only) offers a more balanced trade-off:
 - Still provides distributed tracing capabilities
 - Reduces performance impact to ~65% instead of ~81%
-- Maintains essential observability features
+- But consider: do you actually need tracing, or would metrics serve you better?
 
 ## Real-World Implications
 
 ### For Production Applications
+
+**Start with cost-effective observability:**
+- **Metrics first**: Implement histograms, counters, and gauges for performance monitoring
+- **Profiles second**: Use CPU and memory profiling to identify bottlenecks
+- **AsyncLocalStorage for correlation**: ~7% overhead for request correlation is often worthwhile
+- **Consider tracing last**: Only when you have specific anomaly investigation needs
 
 **If you need AsyncLocalStorage:**
 - Budget for ~7% performance overhead
 - Node.js v24 provides better performance than v22
 - The benefits often outweigh the costs for request correlation
 
-**If you need OpenTelemetry:**
-- Full auto-instrumentation: Expect significant performance impact
-- Consider selective instrumentation for better performance
-- Profile your specific use case – YMMV based on application complexity
+**If you're considering distributed tracing:**
+- **Ask yourself**: Do you need traces, or would metrics/profiles solve your problem?
+- Most performance insights come from histograms and profiling, not traces
+- Full auto-instrumentation: Expect 80%+ performance impact
+- Consider selective instrumentation only if you have a specific tracing use case
+- Implement smart sampling strategies to reduce overhead
 
 **If performance is critical:**
+- Prioritize metrics and profiling over distributed tracing
 - Measure the impact in your specific environment
-- Consider whether observability benefits justify the performance cost
-- Implement smart sampling strategies to reduce overhead
+- Remember: tracing is most valuable for anomaly investigation, not general monitoring
 
 ### The Developer's Dilemma
 
-This creates an interesting trade-off matrix:
+This creates an interesting trade-off matrix for observability approaches:
 
-| Scenario | Performance | Observability | Complexity |
-|----------|-------------|---------------|------------|
-| No instrumentation | ⭐⭐⭐⭐⭐ | ⭐ | ⭐ |
-| AsyncLocalStorage only | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ |
-| Selective OTel | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
-| Full OTel | ⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Scenario | Performance | Observability Value | Cost-Effectiveness | Complexity |
+|----------|-------------|---------------------|-------------------|------------|
+| No instrumentation | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐⭐ | ⭐ |
+| Metrics + Profiles | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ |
+| AsyncLocalStorage + Logging | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ |
+| Selective Tracing | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
+| Full OpenTelemetry | ⭐ | ⭐⭐⭐⭐⭐ | ⭐ | ⭐⭐⭐⭐ |
+
+**Key insight**: Metrics and profiling offer the best cost-effectiveness ratio, providing high observability value with minimal performance impact.
 
 ## The Bottom Line
 
@@ -152,10 +170,12 @@ This creates an interesting trade-off matrix:
 These benchmarks highlight the importance of measuring observability costs in your specific environment. While our results provide valuable baselines, your application's performance characteristics may differ.
 
 **Recommendations:**
-1. **Start minimal**: Begin with basic AsyncLocalStorage for request correlation
-2. **Measure continuously**: Profile observability overhead in your production environment  
-3. **Upgrade strategically**: Node.js v24's AsyncLocalStorage improvements justify upgrading
-4. **Choose wisely**: Balance observability needs against performance requirements
+1. **Start with metrics**: Implement histograms and counters before considering tracing
+2. **Add profiling**: CPU and memory profiles reveal more bottlenecks than traces
+3. **Use AsyncLocalStorage for correlation**: The ~7% overhead is reasonable for request context
+4. **Consider tracing last**: Only implement when you have specific anomaly investigation needs
+5. **Measure continuously**: Profile observability overhead in your production environment  
+6. **Upgrade strategically**: Node.js v24's AsyncLocalStorage improvements justify upgrading
 
 The future of Node.js observability looks bright, with continued performance optimizations (thanks to contributors and sponsors like DataDog) making context propagation increasingly viable for high-performance applications.
 
