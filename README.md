@@ -60,9 +60,9 @@ These results help developers make informed decisions about when and how to impl
 
 ## Node.js Version Comparison
 
-The benchmarks include measurements for both **Node.js v24** and **Node.js v22.17.1** to evaluate performance differences between these major versions:
+The benchmarks include measurements for both **Node.js v24.4.1** and **Node.js v22.17.1** to evaluate performance differences between these major versions:
 
-### Performance Improvements in Node.js v24
+### Performance Improvements in Node.js v24.4.1
 - **AsyncLocalStorage Optimization**: Node.js v24 shows improved AsyncLocalStorage performance compared to v22, with slightly better throughput in most scenarios. These improvements are due to specific optimizations implemented in [PR #48528](https://github.com/nodejs/node/pull/48528) (sponsored by DataDog) and [PR #55552](https://github.com/nodejs/node/pull/55552)
 - **Baseline Performance**: Both versions show similar baseline performance for non-instrumented servers
 - **OpenTelemetry Impact**: The relative overhead of OpenTelemetry instrumentation remains substantial in both versions, though v24 shows marginal improvements
@@ -74,7 +74,7 @@ The benchmarks include measurements for both **Node.js v24** and **Node.js v22.1
 
 The version comparison demonstrates that while Node.js v24 includes performance improvements for AsyncLocalStorage, the fundamental trade-offs between observability features and performance remain consistent across versions.
 
-# Node.js v24
+# Node.js v24.4.1
 
 ## No AsyncLocalStorage
 
