@@ -1,4 +1,16 @@
 
+# Benchmark Environment
+
+These benchmarks were executed on:
+- **OS:** Linux 5.15.0-140-generic
+- **Platform:** linux
+- **CPU:** Intel(R) Core(TM) i7-7700 CPU @ 3.60GHz
+- **Cores:** 4 cores, 8 threads (2 threads per core)
+- **CPU Frequency:** 800 MHz - 4200 MHz
+- **Memory:** 62 GB RAM
+- **Storage:** 202 GB total, 172 GB used (90% utilization)
+- **Date:** 2025-07-30
+
 # Node.js v24
 
 ## No AsyncLocalStorage
