@@ -4,7 +4,7 @@
 ## AsyncLocalStorage
 
 ```bash
-npx autocannon -c 100 -p 10 -d 10  -W [ -c 100 -d 5] http://localhost:3000
+n"px autocannon -c 100 -p 10 -d 10  -W [ -c 100 -d 5] http://localhost:3000
 Running 5s warmup @ http://localhost:3000
 100 connections with 10 pipelining factor
 
