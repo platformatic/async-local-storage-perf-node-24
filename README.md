@@ -11,6 +11,34 @@ These benchmarks were executed on:
 - **Storage:** 202 GB total, 172 GB used (90% utilization)
 - **Date:** 2025-07-30
 
+# Benchmark Methodology
+
+These benchmarks compare the performance impact of AsyncLocalStorage and OpenTelemetry instrumentation on Node.js HTTP servers. Five different server implementations are tested:
+
+## Test Scenarios
+
+1. **No AsyncLocalStorage** (`base.js`): Baseline HTTP server without AsyncLocalStorage
+2. **AsyncLocalStorage** (`simple.js`): HTTP server using AsyncLocalStorage to store request context
+3. **Fastify Base** (`fastify-base.js`): Fastify server without instrumentation
+4. **Fastify OpenTelemetry** (`fastify-otel.js`): Fastify with full OpenTelemetry auto-instrumentation + Fastify OTel plugin
+5. **Fastify OpenTelemetry without Node.js monkey-patching** (`fastify-otel-only.js`): Fastify with only Fastify OTel plugin (no auto-instrumentations)
+
+## Load Testing Configuration
+
+All tests use [Autocannon](https://github.com/mcollina/autocannon) with consistent parameters:
+- **Connections**: 100 concurrent connections
+- **Pipelining**: 10 requests per connection
+- **Duration**: 10 seconds test + 5 seconds warmup
+- **Command**: `npx autocannon -c 100 -p 10 -d 10 -W [ -c 100 -d 5] http://localhost:3000`
+
+## Measured Metrics
+
+- **Latency**: Response time percentiles (2.5%, 50%, 97.5%, 99%) and averages
+- **Throughput**: Requests per second and bytes per second
+- **Total**: Total requests and data transferred during the test period
+
+Each server responds with a simple text message containing a generated request ID to ensure consistent response payloads across all scenarios.
+
 # Node.js v24
 
 ## No AsyncLocalStorage
