@@ -21,7 +21,7 @@ These benchmarks compare the performance impact of AsyncLocalStorage and OpenTel
 2. **AsyncLocalStorage** (`simple.js`): HTTP server using AsyncLocalStorage to store request context
 3. **Fastify Base** (`fastify-base.js`): Fastify server without instrumentation
 4. **Fastify OpenTelemetry** (`fastify-otel.js`): Fastify with full OpenTelemetry auto-instrumentation + Fastify OTel plugin
-5. **Fastify OpenTelemetry without Node.js monkey-patching** (`fastify-otel-only.js`): Fastify with only Fastify OTel plugin (no auto-instrumentations)
+5. **Fastify OpenTelemetry without auto-instrumentation** (`fastify-otel-only.js`): Fastify with only Fastify OTel plugin (no auto-instrumentations)
 
 ## Load Testing Configuration
 
@@ -177,7 +177,7 @@ Req/Bytes counts sampled once per second.
 118k requests in 11.01s, 20.6 MB read
 ```
 
-### Fastify OpenTelemetry without Node.js monkey-patching
+### Fastify OpenTelemetry without auto-instrumentation
 
 ```bash
 $ npm run test
@@ -349,7 +349,7 @@ Req/Bytes counts sampled once per second.
 100k requests in 10.02s, 17.5 MB read
 ```
 
-## Fastify OpenTelemetry without Node.js monkey-patching
+## Fastify OpenTelemetry without auto-instrumentation
 
 ```bash
 $ npm run test
