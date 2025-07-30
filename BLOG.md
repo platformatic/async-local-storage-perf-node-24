@@ -163,4 +163,15 @@ The future of Node.js observability looks bright, with continued performance opt
 
 *Want to run these benchmarks yourself? Check out the [complete benchmark suite](https://github.com/platformatic/async-local-storage-perf-node-24) with all test scenarios and detailed results.*
 
-*Have questions about Node.js performance optimization? Let's discuss the trade-offs between observability and performance in your specific use case.*
+## Need Help Optimizing Your Node.js Application?
+
+These benchmarks highlight the complex performance considerations in modern Node.js applications. If you're struggling with:
+
+- **Performance bottlenecks** in your Node.js services
+- **Observability overhead** that's impacting your application
+- **Context propagation** implementation challenges
+- **Node.js upgrade** performance planning
+
+**[Platformatic](https://platformatic.dev)** builds open source and commercial libraries for high-performance Node.js applications and offers professional support to help you navigate these trade-offs. Our expertise spans Node.js performance optimization, observability implementation, and building production-ready applications that scale.
+
+[Contact us](https://platformatic.dev/contact) to discuss how our libraries and support services can help optimize your Node.js application's performance while maintaining the observability you need.
