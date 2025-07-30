@@ -1,4 +1,10 @@
 
+# AsyncLocalStorage Performance Benchmarks
+
+This repository contains comprehensive performance benchmarks comparing the overhead of AsyncLocalStorage and OpenTelemetry instrumentation in Node.js applications across different Node.js versions.
+
+The benchmarks measure the performance impact of various approaches to request context tracking and observability, providing data-driven insights for developers building production Node.js applications that require distributed tracing, request correlation, or context propagation.
+
 # Benchmark Environment
 
 These benchmarks were executed on:
@@ -13,7 +19,9 @@ These benchmarks were executed on:
 
 # Benchmark Methodology
 
-These benchmarks compare the performance impact of AsyncLocalStorage and OpenTelemetry instrumentation on Node.js HTTP servers. Five different server implementations are tested:
+These benchmarks systematically evaluate the performance overhead introduced by AsyncLocalStorage and OpenTelemetry instrumentation in Node.js applications. AsyncLocalStorage is a powerful Node.js feature that enables context propagation across asynchronous operations, commonly used for request tracing, logging correlation, and storing request-scoped data. However, this functionality comes with performance implications that developers should understand.
+
+The study compares five different server implementations to isolate and measure the specific performance costs of different instrumentation approaches:
 
 ## Test Scenarios
 
@@ -38,6 +46,33 @@ All tests use [Autocannon](https://github.com/mcollina/autocannon) with consiste
 - **Total**: Total requests and data transferred during the test period
 
 Each server responds with a simple text message containing a generated request ID to ensure consistent response payloads across all scenarios.
+
+## Key Findings
+
+The benchmarks reveal significant performance differences between the various approaches:
+
+- **AsyncLocalStorage Impact**: Basic AsyncLocalStorage usage shows a measurable but relatively small performance overhead compared to the baseline
+- **Framework Differences**: Fastify generally outperforms raw Node.js HTTP servers in baseline scenarios
+- **OpenTelemetry Overhead**: Full OpenTelemetry auto-instrumentation introduces substantial performance costs, with throughput reductions of 80%+ in some cases
+- **Selective Instrumentation**: Using only Fastify's OpenTelemetry plugin (without Node.js auto-instrumentations) provides a middle ground, offering observability with reduced performance impact
+
+These results help developers make informed decisions about when and how to implement request context tracking and observability in production Node.js applications.
+
+## Node.js Version Comparison
+
+The benchmarks include measurements for both **Node.js v24** and **Node.js v22.17.1** to evaluate performance differences between these major versions:
+
+### Performance Improvements in Node.js v24
+- **AsyncLocalStorage Optimization**: Node.js v24 shows improved AsyncLocalStorage performance compared to v22, with slightly better throughput in most scenarios
+- **Baseline Performance**: Both versions show similar baseline performance for non-instrumented servers
+- **OpenTelemetry Impact**: The relative overhead of OpenTelemetry instrumentation remains substantial in both versions, though v24 shows marginal improvements
+
+### Version-Specific Observations
+- **Fastify Base**: Both versions achieve similar performance (~56-57k req/sec)
+- **AsyncLocalStorage**: v24 maintains better performance consistency under AsyncLocalStorage usage
+- **OpenTelemetry**: Full instrumentation remains expensive in both versions, but v24 handles the overhead slightly better
+
+The version comparison demonstrates that while Node.js v24 includes performance improvements for AsyncLocalStorage, the fundamental trade-offs between observability features and performance remain consistent across versions.
 
 # Node.js v24
 
