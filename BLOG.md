@@ -194,4 +194,4 @@ These benchmarks highlight the complex performance considerations in modern Node
 
 **[Platformatic](https://platformatic.dev)** builds open source and commercial libraries for high-performance Node.js applications and offers professional support to help you navigate these trade-offs. Our expertise spans Node.js performance optimization, observability implementation, and building production-ready applications that scale.
 
-[Contact us](https://platformatic.dev/contact) to discuss how our libraries and support services can help optimize your Node.js application's performance while maintaining the observability you need.
+[Contact us](https://platformatichq.com/contact) to discuss how our libraries and support services can help optimize your Node.js application's performance while maintaining the observability you need.
